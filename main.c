@@ -74,6 +74,7 @@ bool initialize_game()
     //X starts
     g_turn = 1;
     
+    //TODO: cut background of O and X, Png load I think.
     //TODO: Add start button
     //TODO: Add win screen
     
@@ -105,8 +106,7 @@ void game_loop()
     // printf("are we here\n");
     SDL_RenderClear(g_renderer);
     SDL_RenderTexture(g_renderer, g_gameboard, NULL, NULL);
-    //TODO: Whatever is wrong with this
-    //SDL_RenderTexture(g_renderer, g_O, NULL, g_clicked_box);
+    SDL_RenderTexture(g_renderer, g_O, NULL, &g_clicked_box);
 
 
     SDL_RenderPresent(g_renderer);
@@ -133,10 +133,9 @@ void mouse_click_action(SDL_Event event)
     
     float x = event.button.x;
     float y = event.button.y;
-    //find_square(x,y);
-    //TODO: adding values to g_clicked box crashes the game fix it
-    g_clicked_box.w = 50.0;
-    g_clicked_box.h = 50.0;
+    find_square(x,y);
+    g_clicked_box.w = 150.0;
+    g_clicked_box.h = 150.0;
 
 
 }
@@ -174,8 +173,8 @@ void find_square(float x, float y)
     {
         position_y = 2;
     }
-
-    g_clicked_box->x = g_square_x_ends[position_x];
-    g_clicked_box->y = g_square_y_ends[position_y];
+    //printf("pos:(%f, %f)",g_square_x_ends[position_x], g_square_y_ends[position_y]);
+    g_clicked_box.x = g_square_x_ends[position_x]+10;
+    g_clicked_box.y = g_square_y_ends[position_y]+10;
 
 }

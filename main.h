@@ -19,7 +19,7 @@ SDL_Texture* g_O;
 //if turn == 1 then  X
 //if turn == 0 then O
 int g_turn;
-SDL_FRect *g_clicked_box;
+SDL_FRect g_clicked_box;
 
 bool initialize_game();
 void game_loop();
