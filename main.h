@@ -7,7 +7,7 @@
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
-
+#define NUM_TEXTURES 9
 SDL_Window *g_window;
 SDL_Renderer *g_renderer;
 SDL_Surface *g_surface;
@@ -21,6 +21,8 @@ SDL_Texture* g_O;
 int g_turn;
 SDL_FRect g_clicked_box;
 
+SDL_FRect g_filled_slots[NUM_TEXTURES];
+SDL_Texture* g_turn_arr[NUM_TEXTURES];
 bool initialize_game();
 void game_loop();
 

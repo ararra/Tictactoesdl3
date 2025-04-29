@@ -72,12 +72,16 @@ bool initialize_game()
     }
     
     //X starts
-    g_turn = 1;
-    
+    g_turn = 0;
+
+    //set width and height for X and O on board
+    g_clicked_box.w = 150.0;
+    g_clicked_box.h = 150.0;
+    //TODO: probably better if whole code is turn based.
     //TODO: cut background of O and X, Png load I think.
     //TODO: Add start button
     //TODO: Add win screen
-    
+
     return true;
 }
 
@@ -103,17 +107,23 @@ void game_loop()
             }
         }  
 
+
+    //logics
+
+
+    //render
     // printf("are we here\n");
     SDL_RenderClear(g_renderer);
     SDL_RenderTexture(g_renderer, g_gameboard, NULL, NULL);
-    SDL_RenderTexture(g_renderer, g_O, NULL, &g_clicked_box);
 
+    //magic 9 for now, squares of board.
+    for(int i = 0; i < 9; i++)
+    {   
+        SDL_RenderTexture(g_renderer, g_turn_arr[i], NULL, &g_filled_slots[i]);
+    }
 
     SDL_RenderPresent(g_renderer);
     // update game state, draw the current frame
-
-    //logics
-    //render
     }
 }
 
@@ -127,15 +137,14 @@ bool shutdown_game()
     printf("game has finnished shutting down\n");
     return true;
 }
-
+// this whole functionality needs to be done from scratch, with planning.
 void mouse_click_action(SDL_Event event)
 {
     
     float x = event.button.x;
     float y = event.button.y;
     find_square(x,y);
-    g_clicked_box.w = 150.0;
-    g_clicked_box.h = 150.0;
+
 
 
 }
@@ -177,4 +186,21 @@ void find_square(float x, float y)
     g_clicked_box.x = g_square_x_ends[position_x]+10;
     g_clicked_box.y = g_square_y_ends[position_y]+10;
 
+    // if check to stop duplicate slot fills
+    // if(g_filled_slots[position_x+3*position_y] != NULL)
+    // {
+    //     return;
+    // }
+
+    g_filled_slots[position_x+3*position_y] = g_clicked_box;
+    
+    if (g_turn %2 ==1)
+    {
+        g_turn_arr[position_x+3*position_y] = g_O;    
+    }
+    else
+    {
+        g_turn_arr[position_x+3*position_y] = g_X;    
+    }
+    g_turn += 1;
 }
