@@ -90,7 +90,8 @@ void game_loop()
 {
     bool game_is_running = true;
     //events
-    while (game_is_running) {
+    while (game_is_running) 
+    {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {  // poll until all events are handled!
             // decide what to do with this event.
@@ -108,22 +109,27 @@ void game_loop()
         }  
 
 
-    //logics
+        //logics
 
+        //render
+        // printf("are we here\n");
+        SDL_RenderClear(g_renderer);
+        SDL_RenderTexture(g_renderer, g_gameboard, NULL, NULL);
 
-    //render
-    // printf("are we here\n");
-    SDL_RenderClear(g_renderer);
-    SDL_RenderTexture(g_renderer, g_gameboard, NULL, NULL);
+        //magic 9 for now, squares of board.
+        for(int i = 0; i < 9; i++)
+        {   
+            SDL_RenderTexture(g_renderer, g_turn_arr[i], NULL, &g_filled_slots[i]);
+        }
 
-    //magic 9 for now, squares of board.
-    for(int i = 0; i < 9; i++)
-    {   
-        SDL_RenderTexture(g_renderer, g_turn_arr[i], NULL, &g_filled_slots[i]);
-    }
+        SDL_RenderPresent(g_renderer);
+        // update game state, draw the current frame
+        if (game_win() == true)
+        {   
+            printf("game is over %b", game_end());
+            //render win
+        }
 
-    SDL_RenderPresent(g_renderer);
-    // update game state, draw the current frame
     }
 }
 
@@ -203,4 +209,35 @@ void find_square(float x, float y)
         g_turn_arr[position_x+3*position_y] = g_X;    
     }
     g_turn += 1;
+}
+
+//Checks if g_turn_arr has any row, column or diagonal of solely X or O.
+bool game_win()
+{  
+    for(int i = 0; i<3; i++)
+    {   
+        //checks rows
+        if(g_turn_arr[i*3] ==g_turn_arr[i*3+2] && g_turn_arr[i*3] == g_turn_arr[i*3+1] && (g_turn_arr[i*3] == g_O || g_turn_arr[i*3] == g_X))
+        {
+            return true;
+        }
+        //checks columns
+        if(g_turn_arr[i] ==g_turn_arr[i+3] && g_turn_arr[i] == g_turn_arr[i+6]&& (g_turn_arr[i*3] == g_O || g_turn_arr[i*3] == g_X))
+        {
+            return true;
+        }
+    }
+
+    //checks diagonals
+    if(g_turn_arr[0] == g_turn_arr[4] && g_turn_arr[0] == g_turn_arr[8]&& (g_turn_arr[0] == g_O || g_turn_arr[0] == g_X))
+    {
+        return true;
+    }
+
+    if(g_turn_arr[2] == g_turn_arr[4] && g_turn_arr[2] == g_turn_arr[6]&& (g_turn_arr[0] == g_O || g_turn_arr[0] == g_X))
+    {
+        return true;
+    }
+
+    return false;
 }

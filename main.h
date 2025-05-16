@@ -38,3 +38,5 @@ float g_square_x_ends[3] = {0.0, 225.0, 440.0};
 float g_square_y_ends[3] = {0.0, 148.0, 303.0};
 
 void find_square(float x, float y);
+
+bool game_win();
