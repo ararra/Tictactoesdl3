@@ -125,7 +125,8 @@ void game_loop()
         SDL_RenderPresent(g_renderer);
         // update game state, draw the current frame
         if (game_win() == true)
-        {   
+        {      
+            printf("game is over\n");
             //render win
         }
 
@@ -214,6 +215,7 @@ void find_square(float x, float y)
 }
 
 //Checks if g_turn_arr has any row, column or diagonal of solely X or O.
+//some bug in this function
 bool game_win()
 {  
     for(int i = 0; i<3; i++)
@@ -224,7 +226,7 @@ bool game_win()
             return true;
         }
         //checks columns
-        if(g_turn_arr[i] ==g_turn_arr[i+3] && g_turn_arr[i] == g_turn_arr[i+6]&& (g_turn_arr[i*3] == g_O || g_turn_arr[i*3] == g_X))
+        if(g_turn_arr[i] ==g_turn_arr[i+3] && g_turn_arr[i] == g_turn_arr[i+6]&& (g_turn_arr[i] == g_O || g_turn_arr[i] == g_X))
         {
             return true;
         }
@@ -236,7 +238,7 @@ bool game_win()
         return true;
     }
 
-    if(g_turn_arr[2] == g_turn_arr[4] && g_turn_arr[2] == g_turn_arr[6]&& (g_turn_arr[0] == g_O || g_turn_arr[0] == g_X))
+    if(g_turn_arr[2] == g_turn_arr[4] && g_turn_arr[2] == g_turn_arr[6]&& (g_turn_arr[2] == g_O || g_turn_arr[2] == g_X))
     {
         return true;
     }
