@@ -126,7 +126,6 @@ void game_loop()
         // update game state, draw the current frame
         if (game_win() == true)
         {   
-            printf("game is over %b", game_end());
             //render win
         }
 
@@ -199,7 +198,10 @@ void find_square(float x, float y)
     // }
 
     g_filled_slots[position_x+3*position_y] = g_clicked_box;
-    
+    if(g_turn_arr[position_x+3*position_y] == g_O || g_turn_arr[position_x+3*position_y] == g_X)
+    {
+        return;
+    }
     if (g_turn %2 ==1)
     {
         g_turn_arr[position_x+3*position_y] = g_O;    
